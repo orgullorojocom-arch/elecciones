@@ -1,0 +1,8 @@
+# Producción blue/green: COLOR=blue (127.0.0.1:3040) | green (127.0.0.1:3140). Uso: scripts/lib-bluegreen.sh (dc).
+services:
+  web:
+    build: { context: ., args: { APP_VERSION: "${APP_VERSION:-dev}" } }
+    environment: { COLOR: "${COLOR}" }
+    ports: ["127.0.0.1:${PORT}:80"]
+    restart: unless-stopped
+    logging: { driver: json-file, options: { max-size: "10m", max-file: "5" } }
