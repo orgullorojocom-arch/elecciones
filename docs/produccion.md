@@ -21,4 +21,4 @@ No aplica (sin BBDD ni estado). La fuente de verdad es el repo en GitHub y los t
 ## Observabilidad
 Logs de acceso/errores de nginx por vhost, logs del contenedor (`docker logs`), `/healthz`, cabecera `X-Served-By`. La oficina chequea la URL pública y el origen (ver config del proyecto).
 ## Requiere al CEO
-Nada, salvo que `orgullorojocom-arch/elecciones` no sea clonable desde el VPS (necesita deploy key de solo lectura en GitHub: si `vps-setup` falla en el clone, pedirla).
+Nada: el VPS ya puede clonar el repo (verificado). Solo si el tercero lo vuelve privado sin acceso, pedir una deploy key.
