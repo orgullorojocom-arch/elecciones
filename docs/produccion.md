@@ -4,7 +4,9 @@
 - **Estado verificado (2026-11-12, solo lectura):** DNS OK; el VPS **no tiene todavía** vhost, certificado, carpeta `~/projects/elecciones` ni contenedores `elecciones-*`; puertos 3040/3140 libres; `sudo` sin contraseña disponible para `ubuntu`; `/etc/nginx/conf.d/` se incluye en `http` (lo usan Parkium y Números Rojos).
 - **Nada de esto se probó en el VPS**: scripts probados solo en local (`make test`). El primer deploy es el primer uso real de `scripts/*.sh` con nginx del host.
 
-## Primera vez (ingeniero, autónomo)
+- **Estado (2026-11-12): EN PRODUCCIÓN.** vps-setup, certbot (vence 2027-02-10, renovación automática) y primer deploy hechos; deploy rutinario y rollback verificados (activo: green). Hallazgos del primer uso: `curl|grep -q` con pipefail fallaba con el HTML de 1 MB y el smoke público necesita reintentos tras el reload (ya corregido en `scripts/lib-bluegreen.sh`). `deploy/nginx/*.conf` es el vhost final con los bloques de certbot.
+
+## Primera vez (ingeniero, autónomo) — ya hecho
 1. `make vps-setup` (clona el repo en el VPS, instala include de nginx apuntando a green y el vhost; hace `nginx -t`). No recarga nginx.
 2. `sudo systemctl reload nginx` en el VPS; luego `sudo certbot --nginx -d elecciones.orgullorojo.com` (agrega 443 y redirect; certbot ya corre en el VPS para otros dominios). Si falla, ver que el DNS resuelva y el puerto 80 llegue.
 3. `make deploy FIRST=1` (el primer color es blue).
