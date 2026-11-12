@@ -16,11 +16,16 @@ smoke_color() {
   local c="$1" p; p="$(port_of "$c")"
   for _ in $(seq 1 20); do curl -fs --max-time 3 "http://127.0.0.1:$p/healthz" >/dev/null && break; sleep 2; done
   curl -fs --max-time 5 "http://127.0.0.1:$p/healthz" >/dev/null || return 1
-  curl -fs --max-time 10 "http://127.0.0.1:$p/" | grep -q "<title>" || return 1
-  curl -fsI --max-time 5 "http://127.0.0.1:$p/" | grep -qi "x-served-by: elecciones-$c"
+  # Se captura la salida antes de grep: con pipefail, `curl | grep -q` falla (curl 23) en HTML grandes.
+  local body hdr
+  body="$(curl -fs --max-time 10 "http://127.0.0.1:$p/")" || return 1
+  grep -q "<title>" <<<"$body" || return 1
+  hdr="$(curl -fsI --max-time 5 "http://127.0.0.1:$p/")" || return 1
+  grep -qi "x-served-by: elecciones-$c" <<<"$hdr"
 }
 # Smoke por la ruta pública (nginx del host + TLS) y comprueba que sirve el color esperado. SKIP_PUBLIC=1 la omite (primer deploy sin TLS).
 smoke_public() {
   [ "${SKIP_PUBLIC:-0}" = 1 ] && return 0
-  curl -fsI --max-time 10 --resolve "$DOMAIN:443:127.0.0.1" "https://$DOMAIN/" | grep -qi "x-served-by: elecciones-$1"
+  local hdr; hdr="$(curl -fsI --max-time 10 --resolve "$DOMAIN:443:127.0.0.1" "https://$DOMAIN/")" || return 1
+  grep -qi "x-served-by: elecciones-$1" <<<"$hdr"
 }
