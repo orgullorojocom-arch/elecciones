@@ -26,6 +26,11 @@ smoke_color() {
 # Smoke por la ruta pública (nginx del host + TLS) y comprueba que sirve el color esperado. SKIP_PUBLIC=1 la omite (primer deploy sin TLS).
 smoke_public() {
   [ "${SKIP_PUBLIC:-0}" = 1 ] && return 0
-  local hdr; hdr="$(curl -fsI --max-time 10 --resolve "$DOMAIN:443:127.0.0.1" "https://$DOMAIN/")" || return 1
-  grep -qi "x-served-by: elecciones-$1" <<<"$hdr"
+  # Reintenta: tras `nginx -s reload` los workers viejos pueden atender unos segundos.
+  local hdr
+  for _ in 1 2 3 4 5 6 7 8; do
+    hdr="$(curl -fsI --max-time 10 --resolve "$DOMAIN:443:127.0.0.1" "https://$DOMAIN/")" && grep -qi "x-served-by: elecciones-$1" <<<"$hdr" && return 0
+    sleep 2
+  done
+  return 1
 }
