@@ -5,6 +5,7 @@ Landing de una sola página (`index.html`, ~1 MB, CSS/JS/imágenes embebidos; si
 
 ## Quién pide los cambios
 Cuando llega un correo de `hernangpaz@gmail.com` pidiendo publicar cambios: actualizar `main` (`git pull`) y desplegar (`make deploy`). Verificar que el sitio responda y avisar al CEO. Nada más.
+**Indicación del CEO (2026-11-17):** después de desplegar, siempre responderle el correo a Hernán (reply en el mismo hilo) confirmando que está publicado.
 **Indicación del CEO (2026-11-12):** los pedidos por mail se atienden siempre directamente y se despliega, sin esperar su OK (no cargar tarea pendiente de aprobación: crearla `--lista`).
 
 ## Stack
