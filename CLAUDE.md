@@ -8,6 +8,8 @@ Cuando llega un correo de `hernangpaz@gmail.com` pidiendo publicar cambios: actu
 **Indicación del CEO (2026-11-17):** después de desplegar, siempre responderle el correo a Hernán (reply en el mismo hilo) confirmando que está publicado.
 **Indicación del CEO (2026-11-12):** los pedidos por mail se atienden siempre directamente y se despliega, sin esperar su OK (no cargar tarea pendiente de aprobación: crearla `--lista`).
 
+**Indicación del CEO (2026-11-20), vigente:** sobre este proyecto **no hacemos nada** salvo subir (desplegar) cuando se solicite. Nada de auditorías de UI, propuestas de mejora a Hernán, verificaciones de sus cambios ni tareas de diseño/producto. `docs/design-system.md` queda solo como referencia histórica: no generar tareas a partir de sus hallazgos (las pendientes #479–#482 y #493 se descartaron).
+
 ## Stack
 nginx:alpine en Docker sirviendo el HTML. Host: VPS compartido (ubuntu@148.113.207.54), nginx del host con TLS (certbot) hace proxy al contenedor. Sin base de datos → **no hay backups de BBDD** (el código está en GitHub: `orgullorojocom-arch/elecciones`, rama `main`).
 
